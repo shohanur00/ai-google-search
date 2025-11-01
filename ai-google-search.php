@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: AI Google News Search
- * Description: Displays top 10 latest Google News results alongside your WordPress search results — even if no posts are found.
- * Version: 1.7
+ * Description: Displays top 10 latest Google News results below your WordPress search results — even if no posts are found.
+ * Version: 1.8
  * Author: Engr. Shohanur Rahman
  * License: GPL2
  * Text Domain: ai-google-search
@@ -10,7 +10,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-// Include handler
+// Include search handler
 require_once plugin_dir_path(__FILE__) . 'includes/ai-google-search-handler.php';
 
 // Enqueue frontend CSS
@@ -19,7 +19,7 @@ add_action('wp_enqueue_scripts', function() {
         'ai-google-search-style',
         plugin_dir_url(__FILE__) . 'assets/style.css',
         [],
-        '1.7'
+        '1.8'
     );
 });
 
@@ -56,70 +56,36 @@ function ai_google_search_form() {
 add_shortcode('ai_google_search', 'ai_google_search_form');
 
 /**
- * Show Google News results below native WordPress search results
- */
-add_action('pre_get_posts', function($query) {
-    if (is_search() && $query->is_main_query() && !is_admin()) {
-        add_action('wp', function() {
-            add_filter('the_content', function($content) {
-                if (is_search() && is_main_query()) {
-                    $search_query = get_search_query();
-
-                    ob_start();
-                    echo '<section class="ai-search-wrapper wp-block-group" style="margin-top:30px;">';
-                    echo '<h2 class="wp-block-heading">🌐 ' . esc_html__('Latest Google News', 'ai-google-search') . '</h2>';
-                    echo '<div class="ai-results">';
-                    echo ai_google_news_search($search_query);
-                    echo '</div></section>';
-                    $extra = ob_get_clean();
-
-                    return $content . $extra;
-                }
-                return $content;
-            });
-        });
-    }
-});
-
-/**
- * ADMIN MENU: Clear Cache Tool
- */
-// Show Google News results after all native search posts
-/**
- * Always show Google News results below WordPress search — even if no posts are found
+ * Show Google News results below WordPress search results
+ * (Print only once, whether posts exist or not)
  */
 add_action('wp', function() {
     if (is_search() && !is_admin()) {
-        add_action('loop_end', function($query) {
-            if ($query->is_main_query()) {
-                $search_query = get_search_query();
+        add_action('get_footer', function() {
+            global $wp_query;
 
+            // Avoid duplicate rendering
+            static $printed = false;
+            if ($printed) return;
+            $printed = true;
+
+            $search_query = get_search_query();
+
+            // Only display if there’s a valid search term
+            if (!empty($search_query)) {
                 echo '<section class="ai-search-wrapper wp-block-group" style="margin-top:30px;">';
-                echo '<h2 class="wp-block-heading">' . esc_html__('Latest News', 'ai-google-search') . '</h2>';
+                echo '<h2 class="wp-block-heading">' . esc_html__('🌐 Latest Google News', 'ai-google-search') . '</h2>';
                 echo '<div class="ai-results">';
                 echo ai_google_news_search($search_query);
                 echo '</div>';
                 echo '</section>';
             }
-        });
-
-        // Fallback for when there are no posts at all (loop_end never triggers)
-        add_action('loop_no_results', function() {
-            $search_query = get_search_query();
-
-            echo '<section class="ai-search-wrapper wp-block-group" style="margin-top:30px;">';
-            echo '<h2 class="wp-block-heading"> ' . esc_html__('Latest  News', 'ai-google-search') . '</h2>';
-            echo '<div class="ai-results">';
-            echo ai_google_news_search($search_query);
-            echo '</div>';
-            echo '</section>';
-        });
+        }, 20); // Add near footer after loop_end
     }
 });
 
-
 /**
- * Admin page callback
+ * Admin page: Cache Management
  */
 function ai_google_news_admin_page() {
     if (isset($_POST['clear_ai_cache'])) {
@@ -137,3 +103,18 @@ function ai_google_news_admin_page() {
     </div>
     <?php
 }
+
+/**
+ * Register admin menu
+ */
+add_action('admin_menu', function() {
+    add_menu_page(
+        'AI Google News',
+        'AI Google News',
+        'manage_options',
+        'ai-google-news',
+        'ai_google_news_admin_page',
+        'dashicons-rss',
+        90
+    );
+});
