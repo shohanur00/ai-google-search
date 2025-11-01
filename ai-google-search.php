@@ -95,7 +95,7 @@ add_action('wp', function() {
                 $search_query = get_search_query();
 
                 echo '<section class="ai-search-wrapper wp-block-group" style="margin-top:30px;">';
-                echo '<h2 class="wp-block-heading">🌐 ' . esc_html__('Latest Google News', 'ai-google-search') . '</h2>';
+                echo '<h2 class="wp-block-heading">' . esc_html__('Latest News', 'ai-google-search') . '</h2>';
                 echo '<div class="ai-results">';
                 echo ai_google_news_search($search_query);
                 echo '</div>';
@@ -108,7 +108,7 @@ add_action('wp', function() {
             $search_query = get_search_query();
 
             echo '<section class="ai-search-wrapper wp-block-group" style="margin-top:30px;">';
-            echo '<h2 class="wp-block-heading">🌐 ' . esc_html__('Latest Google News', 'ai-google-search') . '</h2>';
+            echo '<h2 class="wp-block-heading"> ' . esc_html__('Latest  News', 'ai-google-search') . '</h2>';
             echo '<div class="ai-results">';
             echo ai_google_news_search($search_query);
             echo '</div>';
