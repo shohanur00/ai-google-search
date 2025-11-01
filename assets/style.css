@@ -1,0 +1,28 @@
+.ai-search-wrapper {
+    margin-top: 2em;
+    padding: 1em;
+    background: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.ai-results ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ai-results li {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5em;
+}
+
+.ai-results a {
+    font-weight: 600;
+    color: var(--wp--preset--color--primary, #0073aa);
+    text-decoration: none;
+}
+
+.ai-results a:hover {
+    text-decoration: underline;
+}
