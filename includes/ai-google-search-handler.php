@@ -29,9 +29,10 @@ function ai_google_news_search($query) {
     $url = add_query_arg([
         'key' => $google_api_key,
         'cx'  => $search_engine_id,
-        'q'   => $query,
-        'num' => 10,
-        'tbm' => 'nws', // Force news search mode
+        'q'   => urlencode($query),
+        'num' => $number_of_post,
+        'sort' => 'date',
+        'gl' => 'us',
     ], 'https://www.googleapis.com/customsearch/v1');
 
     $response = wp_remote_get($url, ['timeout' => 20]);
