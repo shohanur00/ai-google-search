@@ -9,8 +9,9 @@ if (!defined('ABSPATH')) exit;
  */
 function ai_google_news_search($query) {
     // --- CONFIG ---
-    $google_api_key   = 'AIzaSyBiyEiBEQuG6W2mEaqIW1RMhws5-o8JVRA';
-    $search_engine_id = '97855eeb7689f4f39';
+    $google_api_key   = defined('AI_GOOGLE_API_KEY') ? AI_GOOGLE_API_KEY : '';
+    $search_engine_id = defined('AI_GOOGLE_SEARCH_ENGINE_ID') ? AI_GOOGLE_SEARCH_ENGINE_ID : '';
+    $number_of_post   = defined('AI_GOOGLE_RESULT_COUNT') ? AI_GOOGLE_RESULT_COUNT : 10;
 
     // --- VALIDATION ---
     $query = trim($query);

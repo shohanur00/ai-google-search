@@ -1,63 +1,41 @@
-/* --- Google News Wrapper --- */
-.ai-search-wrapper {
-    margin-top: 2em;
-    padding: 1.5em 2em;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    max-width: 720px;
-    margin-left: auto;
+/* === Align Google News section to the left === */
+.ai-news-section {
+    text-align: left !important;   /* Force text left-aligned */
+    margin-top: 40px;
+    margin-left: 0;                /* Remove extra centering */
     margin-right: auto;
+    max-width: 800px;              /* Match your content width */
+    padding: 10px 0;
 }
 
-/* --- Heading --- */
-.ai-search-wrapper h2 {
+/* Optional: align heading and links */
+.ai-news-section h2.wp-block-heading {
+    text-align: left;
     font-size: 1.5em;
-    font-weight: 600;
-    margin-bottom: 1em;
+    margin-bottom: 15px;
 }
 
-/* --- Result List --- */
-.ai-results ul {
+.ai-results {
+    text-align: left;
+}
+
+.ai-results ul.ai-news-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .ai-results li {
-    margin-bottom: 1.2em;
-    padding-bottom: 1.2em;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
 }
 
-.ai-results li:last-child {
-    border-bottom: none;
-}
-
-/* --- Title Links --- */
 .ai-results a {
-    color: var(--wp--preset--color--primary, #0073aa);
-    font-weight: 600;
+    color: #0073aa;
     text-decoration: none;
-    font-size: 1.05em;
 }
 
 .ai-results a:hover {
     text-decoration: underline;
 }
 
-/* --- Snippet --- */
-.ai-results p {
-    margin: 0.4em 0;
-    color: #555;
-    line-height: 1.5;
-    font-size: 0.95em;
-}
 
-/* --- Source --- */
-.ai-results small {
-    display: block;
-    color: #999;
-    font-size: 0.85em;
-}
