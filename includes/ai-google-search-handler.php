@@ -32,8 +32,12 @@ function ai_google_news_search($query) {
         'q'   => urlencode($query),
         'num' => $number_of_post,
         'sort' => 'date',
+        'dateRestrict' => 'y2',
         'gl' => 'bd',
+        'hl' => 'bn',
+        'tbm' => 'nws', // 📰 Only show news-type results
     ], 'https://www.googleapis.com/customsearch/v1');
+
 
     $response = wp_remote_get($url, ['timeout' => 20]);
     if (is_wp_error($response)) {
