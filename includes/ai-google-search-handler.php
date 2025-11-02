@@ -32,7 +32,7 @@ function ai_google_news_search($query) {
         'q'   => urlencode($query),
         'num' => $number_of_post,
         'sort' => 'date',
-        'gl' => 'us',
+        'gl' => 'bd',
     ], 'https://www.googleapis.com/customsearch/v1');
 
     $response = wp_remote_get($url, ['timeout' => 20]);
